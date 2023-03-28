@@ -1,4 +1,4 @@
-#!/Users/dremary/Documents/GitProject/Database_Project/venv/bin/python3.11
+#!/Users/dremary/Documents/GitProject/Database_Project/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
