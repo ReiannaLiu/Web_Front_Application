@@ -1,0 +1,3 @@
+FLASK_DEBUG = TRUE
+
+FLASK_APP = master.py
