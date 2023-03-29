@@ -1,8 +1,9 @@
-from website import create_app, engine
+from website import create_app, DATABASEURI
 from sqlalchemy import *
 from flask import g
 
 app = create_app()
+engine = create_engine(DATABASEURI)
 
 
 @app.before_request

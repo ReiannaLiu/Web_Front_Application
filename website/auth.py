@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-from website import engine
+from website import DATABASEURI
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 
 auth = Blueprint('auth', __name__)
+
+engine = create_engine(DATABASEURI)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -41,7 +43,6 @@ def sign_up():
             flash('Password cannot be longer than 30 characters', category='error')
         else:
             with engine.connect() as conn:
-                password = generate_password_hash(password1, method='sha256')
                 create_table_command = """
                 CREATE TABLE IF NOT EXISTS Users(
                     email varchar(30), 
@@ -50,8 +51,8 @@ def sign_up():
                 )
                 """
                 res = conn.execute(text(create_table_command))
-                insert_table_command = "INSERT INTO Users(email, user_name, password) VALUES ({}, {}, {})".format(
-                    email, user_name, password)
+                insert_table_command = "INSERT INTO Users VALUES ({}, {}, {})".format(
+                    email, user_name, password1)
                 res = conn.execute(text(insert_table_command))
                 conn.commit()
 

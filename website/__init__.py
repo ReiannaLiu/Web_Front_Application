@@ -8,8 +8,6 @@ DATABASE_PASSWRD = "2727"
 DATABASE_HOST = "34.28.53.86"
 DATABASEURI = f"postgresql://{DATABASE_USERNAME}:{DATABASE_PASSWRD}@{DATABASE_HOST}/project1"
 
-engine = create_engine(DATABASEURI)
-
 
 def create_app():
     tmpl_dir = os.path.join(os.path.dirname(
