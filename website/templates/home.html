@@ -1,4 +1,26 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
-<h1>This is the home page</h1>
+<div class="container shadow min-vh-100 py-4">
+  <div class="row">
+    <div class="col-md-5 mx-auto">
+      <div class="input-group">
+        <input
+          class="form-control border-end-0 border rounded-pill"
+          type="search"
+          value="search"
+          id="example-search-input"
+        />
+        <span class="input-group-append">
+          <button
+            class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5"
+            type="button"
+          >
+            <i class="fa fa-search"></i>
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
