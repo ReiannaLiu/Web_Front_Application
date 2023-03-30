@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from website import DATABASEURI
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
+from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
@@ -41,7 +42,7 @@ def login():
 
 @auth.route('/logout')
 def logout():
-    return "<p>Logout</p>"
+    return redirect(url_for('auth.login'))
 
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
