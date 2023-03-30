@@ -30,6 +30,7 @@ def login():
             if len(true_password) != 0:
                 if true_password[0] == password:
                     flash('Logged in successfully!', category='success')
+                    return redirect(url_for('views.home'))
                 else:
                     flash('Incorrect password, try again.', category='error')
             else:
