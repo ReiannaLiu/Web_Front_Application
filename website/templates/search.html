@@ -1,11 +1,11 @@
 {% extends "base.html" %} {% block title %}Search{% endblock %} {% block content
 %}
 <body>
-  <table class="table table-hover table-dark table-striped" cellspacing="0">
+  <table class="table table-hover" cellspacing="0">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col" style="text-align: left">Product</th>
+        <th scope="col">Product</th>
+        <th scope="col">Description</th>
         <th scope="col">Color</th>
         <th scope="col">Size</th>
       </tr>
@@ -13,13 +13,12 @@
     <tbody>
       {% if recentRecords == [] %}
       <p>No relevant product</p>
-      {% else %} {% for i in range(0, 5) %}
+      {% else %} {% for rows in recentRecords %}
       <tr>
-        <th scope="row>">{{i+1}}</th>
-        <td align="left"><p>{{recentRecords[i][1]}}</p></td>
-        <td><p>{{recentRecords[i][2]}}</p></td>
-        <td><p>{{recentRecords[i][3]}}</p></td>
-        <td><p>{{recentRecords[i][4]}}</p></td>
+        <td>{{ rows.Product }}</td>
+        <td>{{ rows.description }}</td>
+        <td>{{ rows.color }}</td>
+        <td>{{ rows.size }}</td>
       </tr>
       {% endfor %} {% endif %}
     </tbody>

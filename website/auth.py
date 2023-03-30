@@ -1,35 +1,33 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, g, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import DATABASEURI
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
 engine = create_engine(DATABASEURI)
 
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
 
-        with engine.connect() as conn:
+        with engine.connect() as g.conn:
             params = {}
             params["email"] = email
 
-            cursor = conn.execute(
-                text("SELECT password FROM users WHERE email = :email"), params)
+            user = g.conn.execute(
+                text("SELECT * FROM users WHERE email = :email"), params).fetchone()
 
-            true_password = []
-            for result in cursor:
-                true_password.append(result[0])
-            cursor.close()
+            true_password = user[2]
 
             if len(true_password) != 0:
-                if true_password[0] == password:
+                if true_password == password:
+                    session.clear()
+                    session['email'] = user[0]
                     flash('Logged in successfully!', category='success')
                     return redirect(url_for('views.home'))
                 else:
@@ -42,6 +40,7 @@ def login():
 
 @auth.route('/logout')
 def logout():
+    session.clear()
     return redirect(url_for('auth.login'))
 
 
@@ -53,11 +52,11 @@ def sign_up():
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        with engine.connect() as conn:
+        with engine.connect() as g.conn:
             params = {}
             params["email"] = email
 
-            cursor = conn.execute(
+            cursor = g.conn.execute(
                 text("SELECT email FROM users WHERE email = :email"), params)
             existing_email = []
             for result in cursor:
@@ -81,7 +80,7 @@ def sign_up():
         elif len(password1) > 30:
             flash('Password cannot be longer than 30 characters', category='error')
         else:
-            with engine.connect() as conn:
+            with engine.connect() as g.conn:
                 create_table_command = """
                 CREATE TABLE IF NOT EXISTS users(
                     email varchar(30),
@@ -89,16 +88,16 @@ def sign_up():
                     password varchar(30)
                 )
                 """
-                conn.execute(text(create_table_command))
+                g.conn.execute(text(create_table_command))
 
                 params = {}
                 params["email"] = email
                 params["username"] = username
                 params["password"] = password1
 
-                conn.execute(
+                g.conn.execute(
                     text('INSERT INTO users(email, username, password) VALUES (:email, :username, :password)'), params)
-                conn.commit()
+                g.conn.commit()
 
             flash('Account created!', category='success')
 
