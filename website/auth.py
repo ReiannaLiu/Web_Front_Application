@@ -11,6 +11,30 @@ engine = create_engine(DATABASEURI)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        with engine.connect() as conn:
+            params = {}
+            params["email"] = email
+
+            cursor = conn.execute(
+                text("SELECT password FROM users WHERE email = :email"), params)
+
+            true_password = []
+            for result in cursor:
+                true_password.append(result[0])
+            cursor.close()
+
+            if len(true_password) != 0:
+                if true_password[0] == password:
+                    flash('Logged in successfully!', category='success')
+                else:
+                    flash('Incorrect password, try again.', category='error')
+            else:
+                flash('Email does not exist.', category='error')
+
     return render_template("login.html")
 
 
@@ -23,17 +47,30 @@ def logout():
 def sign_up():
     if request.method == 'POST':
         email = request.form.get('email')
-        user_name = request.form.get('userName')
+        username = request.form.get('userName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        if len(email) < 4:
+        with engine.connect() as conn:
+            params = {}
+            params["email"] = email
+
+            cursor = conn.execute(
+                text("SELECT email FROM users WHERE email = :email"), params)
+            existing_email = []
+            for result in cursor:
+                existing_email.append(result[0])
+            cursor.close()
+
+        if len(existing_email) != 0:
+            flash('Email already exists.', category='error')
+        elif len(email) < 4:
             flash('Email must be greater than 3 characters.', category='error')
         elif len(email) > 30:
             flash('Email can not be longer than 30 characters', category='error')
-        elif len(user_name) < 2:
+        elif len(username) < 2:
             flash('User name must be greater than 1 characters.', category='error')
-        elif len(user_name) > 30:
+        elif len(username) > 30:
             flash('User name can not be longer than 30 characters', category='error')
         elif password1 != password2:
             flash('Passwords don\'t match.', category='error')
@@ -44,16 +81,21 @@ def sign_up():
         else:
             with engine.connect() as conn:
                 create_table_command = """
-                CREATE TABLE IF NOT EXISTS Users(
-                    email varchar(30), 
-                    user_name varchar(30), 
+                CREATE TABLE IF NOT EXISTS users(
+                    email varchar(30),
+                    username varchar(30),
                     password varchar(30)
                 )
                 """
-                res = conn.execute(text(create_table_command))
-                insert_table_command = "INSERT INTO Users VALUES ({}, {}, {})".format(
-                    email, user_name, password1)
-                res = conn.execute(text(insert_table_command))
+                conn.execute(text(create_table_command))
+
+                params = {}
+                params["email"] = email
+                params["username"] = username
+                params["password"] = password1
+
+                conn.execute(
+                    text('INSERT INTO users(email, username, password) VALUES (:email, :username, :password)'), params)
                 conn.commit()
 
             flash('Account created!', category='success')

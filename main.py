@@ -3,6 +3,7 @@ from sqlalchemy import *
 from flask import g
 
 app = create_app()
+
 engine = create_engine(DATABASEURI)
 
 
