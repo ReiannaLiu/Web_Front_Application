@@ -19,14 +19,10 @@ def home():
 
         with engine.connect() as g.conn:
 
-            print(search)
-
             cursor = g.conn.execute(text(
-                "SELECT * FROM product WHERE description LIKE '%' || :val || '%' "), {'val': search})
+                "SELECT * FROM product WHERE description LIKE '%'|| :val ||'%' "), {'val': search})
 
-            rowResults = [{}]
-
-            print(userp)
+            rowResults = []
 
             for result in cursor:
                 print(result)
