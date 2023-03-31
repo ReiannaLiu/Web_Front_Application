@@ -224,4 +224,54 @@ def filter():
 
             return render_template("filter.html", recentRecords=rowResults)
 
+        elif filter_parameter == "3":
+            with engine.connect() as g.conn:
+                cursor = g.conn.execute(text("""
+                                             SELECT gender, name, SUM(quantity_ordered) as Quantity_Ordered
+                                             FROM order_contains 
+                                             NATURAL JOIN product
+                                             NATURAL JOIN customer
+                                             GROUP BY name, gender
+                                             ORDER BY Quantity_Ordered DESC 
+                                             LIMIT 10
+                                             """
+                                             ))
+                rowResults = []
+
+                for result in cursor:
+                    rowResults.append({
+                        'gender': result[0],
+                        'product_name': result[1],
+                        'quantity': result[2]
+                    })
+
+                cursor.close()
+
+            return render_template("filter.html", recentRecords=rowResults)
+
+        elif filter_parameter == "4":
+            with engine.connect() as g.conn:
+                cursor = g.conn.execute(text("""
+                                             SELECT age, name, SUM(quantity_ordered) as Quantity_Ordered
+                                             FROM order_contains 
+                                             NATURAL JOIN product
+                                             NATURAL JOIN customer
+                                             GROUP BY name, age
+                                             ORDER BY Quantity_Ordered DESC 
+                                             LIMIT 10
+                                             """
+                                             ))
+                rowResults = []
+
+                for result in cursor:
+                    rowResults.append({
+                        'age': result[0],
+                        'product_name': result[1],
+                        'quantity': result[2]
+                    })
+
+                cursor.close()
+
+            return render_template("filter.html", recentRecords=rowResults)
+
     return render_template("filter.html")

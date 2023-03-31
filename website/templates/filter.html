@@ -13,6 +13,8 @@
         <option selected value="0">Open this select menu</option>
         <option value="1">Size</option>
         <option value="2">Color</option>
+        <option value="3">Gender</option>
+        <option value="4">Age</option>
         </select>
       </div>
       <input
@@ -27,25 +29,8 @@
 
 <body>
     <table class="table table-hover" cellspacing="0">
-        {% if "product_name" in recentRecords[0] %}
-            <thead>
-                <tr>
-                <th scope="col">Product Name</th>
-                <th scope="col">Number of Purchases</th>
-                </tr>
-            </thead>
-
-            <tbody>
-            {% for rows in recentRecords %}
-            <tr>
-              <td>{{ rows.product_name }}</td>
-              <td>{{ rows.quantity }}</td>
-              <td>
-            </tr>
-            {% endfor %}
-            </tbody>
-
-        {% elif "size" in recentRecords[0]  %}
+        
+        {% if "size" in recentRecords[0]  %}
             <thead>
                 <tr>
                 <th scope="col">Product Size</th>
@@ -80,6 +65,45 @@
             </tr>
             {% endfor %}
             </tbody>
+
+        {% elif "age" in recentRecords[0]  %}
+            <thead>
+                <tr>
+                <th scope="col">Customer's Age</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Number of Purchases</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for rows in recentRecords %}
+            <tr>
+            <td>{{ rows.age }}</td>
+            <td>{{ rows.product_name }}</td>
+            <td>{{ rows.quantity }}</td>
+            <td>
+            </tr>
+            {% endfor %}
+            </tbody>
+
+        {% elif "product_name" in recentRecords[0] %}
+            <thead>
+                <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Number of Purchases</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for rows in recentRecords %}
+            <tr>
+              <td>{{ rows.product_name }}</td>
+              <td>{{ rows.quantity }}</td>
+              <td>
+            </tr>
+            {% endfor %}
+            </tbody>
+
         {% endif %}
     </table>
 </body>
