@@ -156,6 +156,9 @@ def filter():
         filter_parameter = request.values.get('select-filter')
 
         if filter_parameter == "0":
+            return render_template("filter.html", recentRecords=[])
+
+        elif filter_parameter == "1":
             with engine.connect() as g.conn:
                 cursor = g.conn.execute(text("""
                                              SELECT name, SUM(quantity_ordered) as Quantity_Ordered
@@ -178,7 +181,7 @@ def filter():
 
             return render_template("filter.html", recentRecords=rowResults)
 
-        elif filter_parameter == "1":
+        elif filter_parameter == "2":
             with engine.connect() as g.conn:
                 cursor = g.conn.execute(text("""
                                              SELECT size, SUM(quantity_ordered) as Quantity_Ordered
@@ -201,7 +204,7 @@ def filter():
 
             return render_template("filter.html", recentRecords=rowResults)
 
-        elif filter_parameter == "2":
+        elif filter_parameter == "3":
             with engine.connect() as g.conn:
                 cursor = g.conn.execute(text("""
                                              SELECT color, SUM(quantity_ordered) as Quantity_Ordered
@@ -224,7 +227,7 @@ def filter():
 
             return render_template("filter.html", recentRecords=rowResults)
 
-        elif filter_parameter == "3":
+        elif filter_parameter == "4":
             with engine.connect() as g.conn:
                 cursor = g.conn.execute(text("""
                                              SELECT gender, name, SUM(quantity_ordered) as Quantity_Ordered
@@ -249,7 +252,7 @@ def filter():
 
             return render_template("filter.html", recentRecords=rowResults)
 
-        elif filter_parameter == "4":
+        elif filter_parameter == "5":
             with engine.connect() as g.conn:
                 cursor = g.conn.execute(text("""
                                              SELECT age, name, SUM(quantity_ordered) as Quantity_Ordered
@@ -274,4 +277,4 @@ def filter():
 
             return render_template("filter.html", recentRecords=rowResults)
 
-    return render_template("filter.html")
+    return render_template("filter.html", recentRecords=[])
