@@ -48,7 +48,7 @@ def collect():
         with engine.connect() as g.conn:
             create_table_command = """
             CREATE TABLE IF NOT EXISTS collects(
-                email varchar(30)
+                email varchar(30),
                 product_id varchar(10)
             )
             """
@@ -64,7 +64,9 @@ def collect():
                     "SELECT * FROM collects WHERE email = :email AND product_id = :product_id"), params
             )
 
-            if len(cursor) == 0:
+            row = cursor.fetchone()
+
+            if row == None:
                 g.conn.execute(
                     text(
                         'INSERT INTO collects(email, product_id) VALUES (:email, :product_id)'), params
@@ -76,5 +78,6 @@ def collect():
             else:
                 flash(
                     'You\'ve already collected the product. Check it in your cart!', category='error')
+        cursor.close()
 
     return render_template("search.html")
