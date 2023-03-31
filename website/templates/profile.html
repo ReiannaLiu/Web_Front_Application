@@ -12,10 +12,10 @@
 
 <hr> 
 
-<h3>Account Information</h3> 
 {% if personal_info == 0 %}
 <p>You did not create an account on the shopping website!</p>
 {% else %}
+<h3>ACCOUNT INFORMATION</h3> 
 <div class="row">
     <div class="col">
         <div class="form-outline">
@@ -60,6 +60,15 @@
         {% endif %}
     </div>
 </div>
+
+</br> 
+<hr> 
+
+<h3>SHIPPING ADDRESS</h3>
+{% for i in range(0, address|length) %}
+<p class="text-secondary">Shipping Address {{i}}</p>
+{% endfor%}
+
 {% endif %}
 
 {% endblock %}

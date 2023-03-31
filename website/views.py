@@ -335,7 +335,6 @@ def profile():
         rowResults = []
 
         for result in cursor:
-            print(result)
             rowResults.append({
                 'first_name': result[0],
                 'last_name': result[1],
@@ -344,8 +343,25 @@ def profile():
                 'phone_number': result[4]
             })
 
-        print(rowResults)
+        cursor = conn.execute(text(
+            """
+            SELECT street_address, city, province, zipcode 
+            FROM shipping_address
+            NATURAL JOIN customer
+            WHERE email = :email
+            """
+        ), params)
+
+        address = []
+
+        for result in cursor:
+            address.append({
+                'street_address': result[0],
+                'city': result[1],
+                'province': result[2],
+                'zipcode': result[3]
+            })
 
         cursor.close()
 
-    return render_template("profile.html", username=username, email=userp, personal_info=rowResults)
+    return render_template("profile.html", username=username, email=userp, personal_info=rowResults, address=address)
