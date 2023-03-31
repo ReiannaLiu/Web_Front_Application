@@ -87,4 +87,64 @@ def add_collect():
 
 @views.route('/collect', methods=['GET', 'POST'])
 def collect():
-    pass
+    userp = session['email']
+
+    if request.method == 'POST':
+
+        with engine.connect() as g.conn:
+
+            params = {}
+            params['email'] = userp
+
+            cursor = g.conn.execute(text(
+                """
+                SELECT *
+                FROM collects C
+                NATURAL JOIN product P
+                WHERE C.email = :email
+                """), params)
+
+            rowResults = []
+
+            for result in cursor:
+                print(result)
+                rowResults.append({
+                    'product_id': result[0],
+                    'product': result[5],
+                    'description': result[2],
+                    'color': result[6],
+                    'size': result[7],
+                    'unit_price': result[4]
+                })
+
+        cursor.close()
+        return render_template("collect.html", recentRecords=rowResults)
+
+    return render_template("collect.html")
+
+
+@views.route('/delete_collect', methods=['GET', 'POST'])
+def delect_collect():
+    userp = session['email']
+
+    if request.method == 'POST':
+        product_id = request.form.get("btn-pressed")
+
+        with engine.connect() as g.conn:
+
+            params = {}
+            params['email'] = userp
+            params['product_id'] = product_id
+
+            g.conn.execute(
+                text(
+                    "DELETE FROM collects WHERE email = :email AND product_id = :product_id"
+                ), params
+            )
+
+            g.conn.commit()
+
+            flash('Deleted! Search the website for more product you like.',
+                  category='success')
+
+    return redirect(url_for('views.collect'))
