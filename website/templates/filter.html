@@ -1,0 +1,88 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+
+
+</br>
+</br>
+</br>
+
+<form action="{{ url_for('views.filter') }}"class="form-inline" method="POST">
+    <div class="form-group">
+      <div class="input-group">
+        <select name= "select-filter" class="form-select" aria-label="Default select example">
+        <option selected value="0">Open this select menu</option>
+        <option value="1">Size</option>
+        <option value="2">Color</option>
+        </select>
+      </div>
+      <input
+        type="hidden"
+        name="tbn-pressed"
+        value="select-filter"
+      />
+      <button type="submit" class="btn btn-outline-primary">Go</button>
+    </div>
+  </form>
+</br> 
+
+<body>
+    <table class="table table-hover" cellspacing="0">
+        {% if "product_name" in recentRecords[0] %}
+            <thead>
+                <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Number of Purchases</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for rows in recentRecords %}
+            <tr>
+              <td>{{ rows.product_name }}</td>
+              <td>{{ rows.quantity }}</td>
+              <td>
+            </tr>
+            {% endfor %}
+            </tbody>
+
+        {% elif "size" in recentRecords[0]  %}
+            <thead>
+                <tr>
+                <th scope="col">Product Size</th>
+                <th scope="col">Number of Purchases</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for rows in recentRecords %}
+            <tr>
+            <td>{{ rows.size }}</td>
+            <td>{{ rows.quantity }}</td>
+            <td>
+            </tr>
+            {% endfor %}
+            </tbody>
+
+        {% elif "color" in recentRecords[0]  %}
+            <thead>
+                <tr>
+                <th scope="col">Product Color</th>
+                <th scope="col">Number of Purchases</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for rows in recentRecords %}
+            <tr>
+            <td>{{ rows.color }}</td>
+            <td>{{ rows.quantity }}</td>
+            <td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        {% endif %}
+    </table>
+</body>
+
+{% endblock %}
+    

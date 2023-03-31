@@ -148,3 +148,80 @@ def delect_collect():
                   category='success')
 
     return redirect(url_for('views.collect'))
+
+
+@views.route('/filter', methods=['GET', 'POST'])
+def filter():
+    if request.method == 'POST':
+        filter_parameter = request.values.get('select-filter')
+
+        if filter_parameter == "0":
+            with engine.connect() as g.conn:
+                cursor = g.conn.execute(text("""
+                                             SELECT name, SUM(quantity_ordered) as Quantity_Ordered
+                                             FROM order_contains 
+                                             NATURAL JOIN product
+                                             GROUP BY name
+                                             ORDER BY Quantity_Ordered DESC 
+                                             LIMIT 10
+                                             """
+                                             ))
+                rowResults = []
+
+                for result in cursor:
+                    rowResults.append({
+                        'product_name': result[0],
+                        'quantity': result[1]
+                    })
+
+                cursor.close()
+
+            return render_template("filter.html", recentRecords=rowResults)
+
+        elif filter_parameter == "1":
+            with engine.connect() as g.conn:
+                cursor = g.conn.execute(text("""
+                                             SELECT size, SUM(quantity_ordered) as Quantity_Ordered
+                                             FROM order_contains 
+                                             NATURAL JOIN product
+                                             GROUP BY size
+                                             ORDER BY Quantity_Ordered DESC 
+                                             LIMIT 10
+                                             """
+                                             ))
+                rowResults = []
+
+                for result in cursor:
+                    rowResults.append({
+                        'size': result[0],
+                        'quantity': result[1]
+                    })
+
+                cursor.close()
+
+            return render_template("filter.html", recentRecords=rowResults)
+
+        elif filter_parameter == "2":
+            with engine.connect() as g.conn:
+                cursor = g.conn.execute(text("""
+                                             SELECT color, SUM(quantity_ordered) as Quantity_Ordered
+                                             FROM order_contains 
+                                             NATURAL JOIN product
+                                             GROUP BY color
+                                             ORDER BY Quantity_Ordered DESC 
+                                             LIMIT 10
+                                             """
+                                             ))
+                rowResults = []
+
+                for result in cursor:
+                    rowResults.append({
+                        'color': result[0],
+                        'quantity': result[1]
+                    })
+
+                cursor.close()
+
+            return render_template("filter.html", recentRecords=rowResults)
+
+    return render_template("filter.html")
