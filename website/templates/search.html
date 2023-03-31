@@ -22,7 +22,7 @@
         <td>{{ rows.size }}</td>
         <td>{{ rows.unit_price}}</td>
         <td>
-          <form action="{{ url_for('views.collect')}}" method="POST">
+          <form action="{{ url_for('views.add_collect')}}" method="POST">
             <input
               type="hidden"
               name="btn-pressed"

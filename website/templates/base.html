@@ -44,15 +44,32 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbar">
+        {% if session %}
         <div class="navbar-nav">
-          {% if session %}
-          <a class="nav-item nav-link" id="home" href="/home">Home</a>
-          <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-          {% else %}
-          <a class="nav-item nav-link" id="login" href="/">Login</a>
-          <a class="nav-item nav-link" id="sign-up" href="/sign-up">Sign-Up</a>
-          {% endif %}
+          <a class="btn btn-light" role="button" href="/home">HOME</a>
+          <a class="btn btn-primary" role="button" href="/logout">LOGOUT</a>
         </div>
+
+        <div class="collapse navbar-collapse flex-grow-1 text-right">
+          <ul class="navbar-nav ms-auto flex-nowrap">
+            <form action="{{ url_for('views.collect')}}">
+              <button
+                type="submit"
+                class="btn btn-outline-default waves-effect"
+              >
+                <ion-icon name="cart-outline"></ion-icon>
+              </button>
+            </form>
+          </ul>
+        </div>
+
+        {% else %}
+        <div class="navbar-nav">
+          <a class="btn btn-light" role="button" href="/">LOGIN</a>
+          <a class="btn btn-primary" role="button" href="/sign-up">SIGN UP</a>
+        </div>
+
+        {% endif %}
       </div>
     </nav>
 

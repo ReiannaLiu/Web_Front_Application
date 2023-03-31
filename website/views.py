@@ -38,8 +38,8 @@ def home():
     return render_template("home.html")
 
 
-@views.route('/collect', methods=['GET', 'POST'])
-def collect():
+@views.route('/add_collect', methods=['GET', 'POST'])
+def add_collect():
     userp = session['email']
 
     if request.method == 'POST':
@@ -83,3 +83,8 @@ def collect():
         cursor.close()
 
     return redirect(url_for('views.home'))
+
+
+@views.route('/collect', methods=['GET', 'POST'])
+def collect():
+    pass
