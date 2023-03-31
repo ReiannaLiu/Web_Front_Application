@@ -4,11 +4,12 @@
   <table class="table table-hover" cellspacing="0">
     <thead>
       <tr>
-        <th scope="col">Product Name</th>
+        <th scope="col">Product</th>
         <th scope="col">Description</th>
         <th scope="col">Color</th>
         <th scope="col">Size</th>
         <th scope="col">Price</th>
+        <th scope="col">Rating</th>
       </tr>
     </thead>
     <tbody>
@@ -21,6 +22,10 @@
         <td>{{ rows.color }}</td>
         <td>{{ rows.size }}</td>
         <td>{{ rows.unit_price}}</td>
+        <td>
+          {% if rows.rating == None %} No one has rated the product yet. {% else
+          %} {{ rows.rating }} {% endif %}
+        </td>
         <td>
           <form action="{{ url_for('views.add_collect')}}" method="POST">
             <input

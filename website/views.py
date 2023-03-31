@@ -16,8 +16,13 @@ def home():
 
         with engine.connect() as g.conn:
 
-            cursor = g.conn.execute(text(
-                "SELECT * FROM product WHERE description LIKE '%'|| :val ||'%' "), {'val': search})
+            cursor = g.conn.execute(text("""
+                                         SELECT * 
+                                         FROM product p
+                                         LEFT JOIN order_contains o ON p.product_id = o.product_id
+                                         LEFT JOIN rating r ON o.order_id = r.order_id
+                                         WHERE description LIKE '%'|| :val ||'%'
+                                         """), {'val': search})
 
             rowResults = []
 
@@ -29,7 +34,8 @@ def home():
                     'description': result[1],
                     'color': result[5],
                     'size': result[6],
-                    'unit_price': result[3]
+                    'unit_price': result[3],
+                    'rating': result[12]
                 })
 
         cursor.close()

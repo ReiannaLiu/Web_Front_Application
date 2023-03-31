@@ -52,6 +52,28 @@
 
         <div class="collapse navbar-collapse flex-grow-1 text-right">
           <ul class="navbar-nav ms-auto flex-nowrap">
+            <form
+              action="{{ url_for('views.home') }}"
+              class="d-flex input-group w-auto"
+              method="POST"
+            >
+              <input
+                type="search"
+                class="form-control rounded"
+                id="search"
+                name="search"
+                placeholder="Search"
+                aria-label="Search"
+                aria-describedby="search-addon"
+              />
+              <button
+                type="submit"
+                class="btn btn-outline-default waves-effect"
+              >
+                <ion-icon name="search-outline"></ion-icon>
+              </button>
+            </form>
+
             <form action="{{ url_for('views.collect')}}" method="POST">
               <button
                 type="submit"
@@ -67,6 +89,15 @@
                 class="btn btn-outline-default waves-effect"
               >
                 <ion-icon name="funnel-outline"></ion-icon>
+              </button>
+            </form>
+
+            <form action="{{ url_for('views.filter')}}" method="POST">
+              <button
+                type="submit"
+                class="btn btn-outline-default waves-effect"
+              >
+                <ion-icon name="person-circle-outline"></ion-icon>
               </button>
             </form>
           </ul>
