@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, g, session
-from werkzeug.security import generate_password_hash, check_password_hash
 from website import DATABASEURI
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool

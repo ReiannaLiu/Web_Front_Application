@@ -8,6 +8,7 @@
         <th scope="col">Description</th>
         <th scope="col">Color</th>
         <th scope="col">Size</th>
+        <th scope="col">Price</th>
       </tr>
     </thead>
     <tbody>
@@ -15,10 +16,23 @@
       <p>No relevant product</p>
       {% else %} {% for rows in recentRecords %}
       <tr>
-        <td>{{ rows.Product }}</td>
+        <td>{{ rows.product }}</td>
         <td>{{ rows.description }}</td>
         <td>{{ rows.color }}</td>
         <td>{{ rows.size }}</td>
+        <td>{{ rows.unit_price}}</td>
+        <td>
+          <form action="{{ url_for('views.collect')}}" method="POST">
+            <input
+              type="hidden"
+              name="btn-pressed"
+              value="{{rows.product_id}}"
+            />
+            <button type="submit" class="btn btn-outline-default waves-effect">
+              <ion-icon name="star-outline"></ion-icon>
+            </button>
+          </form>
+        </td>
       </tr>
       {% endfor %} {% endif %}
     </tbody>
