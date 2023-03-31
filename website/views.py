@@ -27,7 +27,6 @@ def home():
             rowResults = []
 
             for result in cursor:
-                print(result)
                 rowResults.append({
                     'product_id': result[0],
                     'product': result[4],
@@ -283,4 +282,70 @@ def filter():
 
             return render_template("filter.html", recentRecords=rowResults)
 
+        elif filter_parameter == "6":
+            with engine.connect() as g.conn:
+                cursor = g.conn.execute(text("""
+                                             SELECT supplier_name, name, SUM(quantity_ordered) as Quantity_Ordered
+                                             FROM order_contains 
+                                             NATURAL JOIN product
+                                             NATURAL JOIN supplier
+                                             GROUP BY name, supplier_name
+                                             ORDER BY Quantity_Ordered DESC 
+                                             LIMIT 10
+                                             """
+                                             ))
+                rowResults = []
+
+                for result in cursor:
+                    rowResults.append({
+                        'supplier_name': result[0],
+                        'product_name': result[1],
+                        'quantity': result[2]
+                    })
+
+                cursor.close()
+
+            return render_template("filter.html", recentRecords=rowResults)
+
     return render_template("filter.html", recentRecords=[])
+
+
+@views.route('/profile', methods=['GET', 'POST'])
+def profile():
+    userp = session['email']
+
+    with engine.connect() as conn:
+
+        params = {}
+        params['email'] = userp
+
+        username = conn.execute(text(
+            "SELECT username FROM users WHERE email = :email"
+        ), params).fetchone()[0]
+
+        cursor = conn.execute(text(
+            """
+            SELECT first_name, last_name, gender, age, phone_number
+            FROM customer
+            NATURAL JOIN phone
+            WHERE email = :email
+            """
+        ), params)
+
+        rowResults = []
+
+        for result in cursor:
+            print(result)
+            rowResults.append({
+                'first_name': result[0],
+                'last_name': result[1],
+                'gender': result[2],
+                'age': result[3],
+                'phone_number': result[4]
+            })
+
+        print(rowResults)
+
+        cursor.close()
+
+    return render_template("profile.html", username=username, email=userp, personal_info=rowResults)

@@ -1,0 +1,65 @@
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
+%}
+</br> 
+<div class="content-section">
+  <div class="media">
+    <div class="media-body">
+      <h2 class="account-heading">{{ username }}</h2>
+      <p class="text-secondary">{{ email }}</p>
+    </div>
+  </div>
+</div>
+
+<hr> 
+
+<h3>Account Information</h3> 
+{% if personal_info == 0 %}
+<p>You did not create an account on the shopping website!</p>
+{% else %}
+<div class="row">
+    <div class="col">
+        <div class="form-outline">
+            <label>First Name</label>
+            <span class="input-group-text" id="basic-addon3">{{ personal_info[0].first_name }}</span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-outline">
+            <label>Last Name</label>
+            <span class="input-group-text" id="basic-addon3">{{ personal_info[0].last_name }}</span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-outline">
+            <label>Gender</label>
+            <span class="input-group-text" id="basic-addon3">{{ personal_info[0].gender }}</span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-outline">
+            <label>Age</label>
+            <span class="input-group-text" id="basic-addon3">{{ personal_info[0].age }}</span>
+        </div>
+    </div>
+</div>
+</br> 
+<div class="row">
+    <div class="col">
+        <div class="form-outline">
+            <label>Primary Phone Number</label>
+            <span class="input-group-text" id="basic-addon3">{{ personal_info[0].phone_number }}</span>
+        </div>
+    </div>
+    <div class="col">
+        {% if personal_info|length > 1 %}
+        <label>Secondary Phone Number</label>
+        <span class="input-group-text" id="basic-addon3">{{ personal_info[1].phone_number }}</span>
+        {% else %}
+        <label>Secondary Phone Number</label>
+        <span class="input-group-text" id="basic-addon3"></span>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

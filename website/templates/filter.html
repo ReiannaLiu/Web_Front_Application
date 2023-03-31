@@ -16,6 +16,7 @@
         <option value="3">Color</option>
         <option value="4">Gender</option>
         <option value="5">Age</option>
+        <option value="6">Supplier</option>
         </select>
       </div>
       <input
@@ -80,6 +81,26 @@
             {% for rows in recentRecords %}
             <tr>
             <td>{{ rows.age }}</td>
+            <td>{{ rows.product_name }}</td>
+            <td>{{ rows.quantity }}</td>
+            <td>
+            </tr>
+            {% endfor %}
+            </tbody>
+
+        {% elif "supplier_name" in recentRecords[0]  %}
+            <thead>
+                <tr>
+                <th scope="col">Supplier</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Number of Purchases</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for rows in recentRecords %}
+            <tr>
+            <td>{{ rows.supplier_name }}</td>
             <td>{{ rows.product_name }}</td>
             <td>{{ rows.quantity }}</td>
             <td>
