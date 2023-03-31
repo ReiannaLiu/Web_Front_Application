@@ -75,9 +75,11 @@ def collect():
 
                 flash('Collected! Check it in your cart!',
                       category='success')
+
+                return redirect(url_for('views.home'))
             else:
                 flash(
                     'You\'ve already collected the product. Check it in your cart!', category='error')
         cursor.close()
 
-    return render_template("search.html")
+    return redirect(url_for('views.home'))
