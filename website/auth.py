@@ -100,6 +100,6 @@ def sign_up():
 
             flash('Account created!', category='success')
 
-            return redirect(url_for('views.home'))
+            return redirect(url_for('auth.login'))
 
     return render_template("sign_up.html")
