@@ -21,18 +21,18 @@ def login():
             user = g.conn.execute(
                 text("SELECT * FROM users WHERE email = :email"), params).fetchone()
 
-            true_password = user[2]
-
-            if len(true_password) != 0:
-                if true_password == password:
-                    session.clear()
-                    session['email'] = user[0]
-                    flash('Logged in successfully!', category='success')
-                    return redirect(url_for('views.home'))
-                else:
-                    flash('Incorrect password, try again.', category='error')
-            else:
+            if (user is None):
                 flash('Email does not exist.', category='error')
+            else:
+                true_password = user[2]
+                if len(true_password) != 0:
+                    if true_password == password:
+                        session.clear()
+                        session['email'] = user[0]
+                        flash('Logged in successfully!', category='success')
+                        return redirect(url_for('views.home'))
+                    else:
+                        flash('Incorrect password, try again.', category='error')
 
     return render_template("login.html")
 
