@@ -9,7 +9,7 @@ URL of the web: <http://127.0.0.1:5000>
 **1. Features in the original proposal**
 
 - **Recommend and range categories to users based on different attributes in the filter, such as size and color.**
-You can click the ``filter`` button (showed on the upper right corner of the image) to open the ==filter page== and select specific attribute.
+You can click the ``filter`` button (showed on the upper right corner of the image) to open the ==filter page== and select specific attribute and click go.
 ![](2023-03-31-21-22-26.png)
 Then you can see the result of the filter showed below.
 ![](2023-03-31-21-23-55.png)
