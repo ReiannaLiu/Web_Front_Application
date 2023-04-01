@@ -12,7 +12,7 @@
 
 <hr> 
 
-{% if personal_info == 0 %}
+{% if personal_info == [] %}
 <p>You did not create an account on the shopping website!</p>
 {% else %}
 <h3>ACCOUNT INFORMATION</h3> 
@@ -65,9 +65,80 @@
 <hr> 
 
 <h3>SHIPPING ADDRESS</h3>
+{% if address == [] %}
+<p>You have not add any shipping address to your account yet!</p> 
+
+{% else %}
 {% for i in range(0, address|length) %}
-<p class="text-secondary">Shipping Address {{i}}</p>
+<p class="text-secondary">Shipping Address {{i+1}}</p>
+<div class="row">
+    <div class="col">
+        <div class="form-outline">
+            <label>Street Address</label>
+            <span class="input-group-text" id="basic-addon3">{{ address[i].street_address }}</span>
+        </div>
+    </div>
+</div>
+</br> 
+
+<div class="row">
+    <div class="col">
+        <div class="form-outline">
+            <label>City</label>
+            <span class="input-group-text" id="basic-addon3">{{ address[i].city }}</span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-outline">
+            <label>State</label>
+            <span class="input-group-text" id="basic-addon3">{{ address[i].province }}</span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-outline">
+            <label>Zip Code</label>
+            <span class="input-group-text" id="basic-addon3">{{ address[i].zipcode }}</span>
+        </div>
+    </div>
+</div>
+</br> 
 {% endfor%}
+
+{% endif %}
+
+</br> 
+<hr> 
+
+<h3>PAST ORDERS</h3>
+{% if order == [] %}
+<p>You have not ordered any product yet!</p> 
+{% else %}
+{% for i in range(0, order|length) %}
+<p class="text-secondary">ORDER {{ order[i].order_id }}</p>
+<div class="row">
+    <div class="col">
+        <div class="form-outline">
+            <label>Product</label>
+            <span class="input-group-text" id="basic-addon3">{{ order[i].name }}</span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-outline">
+            <label>Shipped By</label>
+            <span class="input-group-text" id="basic-addon3">{{ order[i].shipper_name }}</span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-outline">
+            <label>Order Status</label>
+            <span class="input-group-text" id="basic-addon3">{{ order[i].order_status }}</span>
+        </div>
+    </div>
+</div>
+</br> 
+{% endfor%}
+
+{% endif %}
 
 {% endif %}
 

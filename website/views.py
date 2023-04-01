@@ -362,6 +362,28 @@ def profile():
                 'zipcode': result[3]
             })
 
+        cursor = conn.execute(text(
+            """
+            SELECT order_status, shipper_name, order_id, name
+            FROM transaction_order
+            NATURAL JOIN customer
+            NATURAL JOIN shipper
+            NATURAL JOIN order_contains
+            NATURAL JOIN product
+            WHERE email = :email
+            """
+        ), params)
+
+        order = []
+
+        for result in cursor:
+            order.append({
+                'order_status': result[0],
+                'shipper_name': result[1],
+                'order_id': result[2],
+                'name': result[3]
+            })
+
         cursor.close()
 
-    return render_template("profile.html", username=username, email=userp, personal_info=rowResults, address=address)
+    return render_template("profile.html", username=username, email=userp, personal_info=rowResults, address=address, order=order)
