@@ -2,7 +2,7 @@ Part 3: Reianna Liu (rl3176), Zhizhuo Zhang (zz3012)
 
 PosgreSQL account name: rl3176
 
-URL of the web: <http://127.0.0.1:5000>
+URL of the web: <http://34.73.23.127:8111>
 
 #### Description of the web application
 
@@ -51,8 +51,12 @@ In this page, you can see all products added in the cart and choose whether to d
 ![](2023-03-31-21-47-08.png)
 
 - **User profile**
-You can click the ```profile``` button to visit the ==profile page==. All the information in this page is related to the email you input when logging in.
+You can click the ```profile``` button to visit the ==profile page==. All the information in this page is related to the email you input when logging in. If you are a user of the shopping website, ==profile page== will show your personal information, shipping address, and pass orders. If you are not a user of the shopping website, ==profile page== will only show your username and email address of this website. 
 ![](2023-03-31-21-57-54.png)
+
+For testing purpose, we have already create a few accounts:  
+1. Users of the shopping website -- email: matthewjackson@bp.com | password: database
+2. Users not from the shopping website -- email: reianna@gmail.com | password: database
 
 **3. Missing part**
 
